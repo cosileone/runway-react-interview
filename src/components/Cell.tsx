@@ -34,20 +34,18 @@ const Cell: React.FC<Props> = ({ id, value, onChange, onFocus }) => {
     React.KeyboardEventHandler<HTMLInputElement | HTMLDivElement>
   >(
     (ev) => {
-      if (isEditing) {
-        ev.stopPropagation();
-      }
-
-      if (ev.key === 'Enter') {
-        if (isEditing) {
-          inputRef.current?.blur();
-          inputRef.current?.focus();
-        } else {
-          setIsEditing(true);
+      if (!isEditing) {
+        if (value !== '' && ev.key === 'Backspace') {
+          onChange('');
         }
+        setIsEditing(true);
+      }
+      if (ev.key === 'Enter' && isEditing) {
+        inputRef.current?.blur();
+        inputRef.current?.focus();
       }
     },
-    [isEditing],
+    [isEditing, onChange, value],
   );
 
   // Could try and use Chakra's `useControllable` hook here, didn't have time to digest documentation fully

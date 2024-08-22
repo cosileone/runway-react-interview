@@ -1,6 +1,6 @@
 import { Box, Container, Flex, Text } from '@chakra-ui/react';
 import _ from 'lodash';
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import Cell from 'components/Cell';
 
