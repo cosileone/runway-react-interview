@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 
 import Cell from 'components/Cell';
 
-const NUM_ROWS = 20;
-const NUM_COLUMNS = 20;
+const NUM_ROWS = 10;
+const NUM_COLUMNS = 10;
 
 const Spreadsheet: React.FC = () => {
   const [spreadsheetState, setSpreadsheetState] = useState(

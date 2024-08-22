@@ -23,6 +23,16 @@ const Cell: React.FC<Props> = ({ value, onChange }) => {
     setIsEditing(false);
   }, [setIsEditing]);
 
+  const isNumericValue = new RegExp('^[0-9]*$').test(value) && value !== '';
+  const displayValue = isNumericValue
+    ? Intl.NumberFormat('en-US', {
+        // We only care about en-US / USD for now
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 0,
+      }).format(Number(value))
+    : value;
+
   return (
     <Box onDoubleClick={onDoubleClickHandler}>
       {isEditing ? (
@@ -35,7 +45,7 @@ const Cell: React.FC<Props> = ({ value, onChange }) => {
           onBlur={onBlurHandler}
         />
       ) : (
-        <Input value={value} borderRadius={0} width="full" px="0.5rem" readOnly={true} />
+        <Input value={displayValue} borderRadius={0} width="full" px="0.5rem" readOnly={true} />
       )}
     </Box>
   );
