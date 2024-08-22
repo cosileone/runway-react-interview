@@ -42,6 +42,7 @@ const Spreadsheet: React.FC = () => {
                   </Text>
                 )}
                 <Cell
+                  id={`${rowIdx}/${columnIdx}`}
                   value={cellValue}
                   onChange={(newValue: string) => {
                     const newRow = [
