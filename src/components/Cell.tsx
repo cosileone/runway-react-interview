@@ -45,14 +45,15 @@ const Cell: React.FC<Props> = ({ id, value, onChange, onFocus }) => {
 
   const onInputKeyDownHandler = useCallback<React.KeyboardEventHandler<HTMLInputElement>>(
     (ev) => {
-      if (isEditing) {
-        if (ev.key === 'Enter') {
-          inputRef.current?.blur();
-          inputRef.current?.focus();
-        }
-        if (value !== '') {
-          ev.stopPropagation();
-        }
+      if (!isEditing) return;
+
+      if (ev.key === 'Enter') {
+        inputRef.current?.blur();
+        inputRef.current?.focus();
+      }
+
+      if (value !== '') {
+        ev.stopPropagation();
       }
     },
     [isEditing, value],
