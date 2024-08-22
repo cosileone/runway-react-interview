@@ -29,7 +29,9 @@ const Cell: React.FC<Props> = ({ value, onChange, id }) => {
     setIsEditing(false);
   }, [setIsEditing]);
 
-  const onKeyDownHandler = useCallback<React.KeyboardEventHandler<HTMLInputElement>>(
+  const onKeyDownHandler = useCallback<
+    React.KeyboardEventHandler<HTMLInputElement | HTMLDivElement>
+  >(
     (ev) => {
       if (ev.key === 'Enter') {
         if (isEditing) {
@@ -55,7 +57,7 @@ const Cell: React.FC<Props> = ({ value, onChange, id }) => {
     : value;
 
   return (
-    <Box onDoubleClick={onDoubleClickHandler}>
+    <Box onDoubleClick={onDoubleClickHandler} onKeyDown={onKeyDownHandler}>
       {isEditing ? (
         <Input
           id={id}
