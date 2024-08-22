@@ -1,6 +1,6 @@
 import { Box, Container, Flex, Text } from '@chakra-ui/react';
 import _ from 'lodash';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 
 import Cell from 'components/Cell';
 
@@ -12,8 +12,60 @@ const Spreadsheet: React.FC = () => {
     _.times(NUM_ROWS, () => _.times(NUM_COLUMNS, _.constant(''))),
   );
 
+  const [selectedCell, setSelectedCell] = useState<{ row: number; column: number }>();
+
+  useEffect(() => {
+    if (selectedCell) {
+      const cell = document.getElementById(`${selectedCell.row}/${selectedCell.column}`);
+      cell?.focus();
+    }
+  }, [selectedCell]);
+
+  const onKeyDownHandler = useCallback<React.KeyboardEventHandler<HTMLDivElement>>(
+    (ev) => {
+      if (selectedCell) {
+        switch (ev.key) {
+          case 'ArrowUp':
+            if (selectedCell.row === 0) break;
+            setSelectedCell({
+              row: selectedCell.row - 1,
+              column: selectedCell.column,
+            });
+            break;
+          case 'ArrowDown':
+            if (selectedCell.row >= NUM_ROWS - 1) break;
+            setSelectedCell({
+              row: selectedCell.row + 1,
+              column: selectedCell.column,
+            });
+            break;
+          case 'ArrowLeft':
+            if (selectedCell.column === 0) break;
+            setSelectedCell({
+              row: selectedCell.row,
+              column: selectedCell.column - 1,
+            });
+            break;
+          case 'ArrowRight':
+            if (selectedCell.column >= NUM_COLUMNS - 1) break;
+            setSelectedCell({
+              row: selectedCell.row,
+              column: selectedCell.column + 1,
+            });
+            break;
+          default:
+            // console.log(ev.key);
+            break;
+        }
+      } else {
+        setSelectedCell({ row: 0, column: 0 });
+      }
+    },
+    [selectedCell],
+  );
+
   return (
-    <Box width="full" ml="8">
+    <Box width="full" ml="8" onKeyDown={onKeyDownHandler}>
       {spreadsheetState.map((row, rowIdx) => {
         return (
           <Flex key={String(rowIdx)} position="relative">
@@ -55,6 +107,9 @@ const Spreadsheet: React.FC = () => {
                       newRow,
                       ...spreadsheetState.slice(rowIdx + 1),
                     ]);
+                  }}
+                  onFocus={() => {
+                    setSelectedCell({ row: rowIdx, column: columnIdx });
                   }}
                 />
               </Container>

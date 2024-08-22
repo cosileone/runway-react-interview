@@ -5,9 +5,10 @@ interface Props {
   id: string;
   value: string;
   onChange: (newValue: string) => void;
+  onFocus?: () => void;
 }
 
-const Cell: React.FC<Props> = ({ value, onChange, id }) => {
+const Cell: React.FC<Props> = ({ id, value, onChange, onFocus }) => {
   // This boolean is responsible for toggling the editable state of the cell,
   // this is to allow for spreadsheet navigation using arrows as we will not want to
   // focus input on arrow press as this will capture the key press event and not allow for navigation
@@ -57,7 +58,7 @@ const Cell: React.FC<Props> = ({ value, onChange, id }) => {
     : value;
 
   return (
-    <Box onDoubleClick={onDoubleClickHandler} onKeyDown={onKeyDownHandler}>
+    <Box onDoubleClick={onDoubleClickHandler} onKeyDown={onKeyDownHandler} onFocus={onFocus}>
       {isEditing ? (
         <Input
           id={id}
