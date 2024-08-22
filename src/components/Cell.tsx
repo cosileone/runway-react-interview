@@ -30,9 +30,7 @@ const Cell: React.FC<Props> = ({ id, value, onChange, onFocus }) => {
     setIsEditing(false);
   }, [setIsEditing]);
 
-  const onKeyDownHandler = useCallback<
-    React.KeyboardEventHandler<HTMLInputElement | HTMLDivElement>
-  >(
+  const onBoxKeyDownHandler = useCallback<React.KeyboardEventHandler<HTMLDivElement>>(
     (ev) => {
       if (!isEditing) {
         if (value !== '' && ev.key === 'Backspace') {
@@ -40,12 +38,23 @@ const Cell: React.FC<Props> = ({ id, value, onChange, onFocus }) => {
         }
         setIsEditing(true);
       }
-      if (ev.key === 'Enter' && isEditing) {
-        inputRef.current?.blur();
-        inputRef.current?.focus();
-      }
     },
     [isEditing, onChange, value],
+  );
+
+  const onInputKeyDownHandler = useCallback<React.KeyboardEventHandler<HTMLInputElement>>(
+    (ev) => {
+      if (isEditing) {
+        if (ev.key === 'Enter') {
+          inputRef.current?.blur();
+          inputRef.current?.focus();
+        }
+        if (value !== '') {
+          ev.stopPropagation();
+        }
+      }
+    },
+    [isEditing, value],
   );
 
   // Could try and use Chakra's `useControllable` hook here, didn't have time to digest documentation fully
@@ -60,7 +69,7 @@ const Cell: React.FC<Props> = ({ id, value, onChange, onFocus }) => {
     : value;
 
   return (
-    <Box onDoubleClick={onDoubleClickHandler} onKeyDown={onKeyDownHandler} onFocus={onFocus}>
+    <Box onDoubleClick={onDoubleClickHandler} onKeyDown={onBoxKeyDownHandler} onFocus={onFocus}>
       {isEditing ? (
         <Input
           id={id}
@@ -71,7 +80,7 @@ const Cell: React.FC<Props> = ({ id, value, onChange, onFocus }) => {
           onChange={onChangeHandler}
           px="0.5rem"
           onBlur={onBlurHandler}
-          onKeyDown={onKeyDownHandler}
+          onKeyDown={onInputKeyDownHandler}
         />
       ) : (
         <Input
