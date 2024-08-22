@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Container, Flex, Text } from '@chakra-ui/react';
 import _ from 'lodash';
 import React, { Fragment, useState } from 'react';
 
@@ -18,29 +18,27 @@ const Spreadsheet: React.FC = () => {
         return (
           <Flex key={String(rowIdx)} position="relative">
             <Text
-              key={String(rowIdx)}
               color="gray.400"
               fontWeight="400"
               fontSize="sm"
               position="absolute"
               left="-2rem"
               top="0.5rem"
-              textAlign="right"
             >
               {rowIdx + 1}
             </Text>
             {row.map((cellValue, columnIdx) => (
-              <Fragment key={`${rowIdx}/${columnIdx}`}>
-                {rowIdx === 0 ?? (
+              <Container key={`${rowIdx}/${columnIdx}`} position="relative" p="0">
+                {rowIdx === 0 && (
                   <Text
                     color="gray.400"
                     fontWeight="400"
                     fontSize="sm"
                     position="absolute"
-                    top="-2rem"
-                    textAlign="right"
+                    top="-1.5rem"
+                    pl="50%"
                   >
-                    shenanigans
+                    {columnIdx + 1}
                   </Text>
                 )}
                 <Cell
@@ -58,7 +56,7 @@ const Spreadsheet: React.FC = () => {
                     ]);
                   }}
                 />
-              </Fragment>
+              </Container>
             ))}
           </Flex>
         );
