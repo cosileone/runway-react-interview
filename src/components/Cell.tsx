@@ -35,8 +35,9 @@ const Cell: React.FC<Props> = ({ id, value, onChange, onFocus }) => {
       if (!isEditing) {
         if (value !== '' && ev.key === 'Backspace') {
           onChange('');
+        } else {
+          setIsEditing(true);
         }
-        setIsEditing(true);
       }
     },
     [isEditing, onChange, value],

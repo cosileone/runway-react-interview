@@ -2,7 +2,7 @@ import { Box, Container, Flex, Text } from '@chakra-ui/react';
 import _ from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import Cell from 'components/Cell';
+import Cell from './Cell';
 
 const NUM_ROWS = 10;
 const NUM_COLUMNS = 10;
