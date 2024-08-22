@@ -34,6 +34,10 @@ const Cell: React.FC<Props> = ({ id, value, onChange, onFocus }) => {
     React.KeyboardEventHandler<HTMLInputElement | HTMLDivElement>
   >(
     (ev) => {
+      if (isEditing) {
+        ev.stopPropagation();
+      }
+
       if (ev.key === 'Enter') {
         if (isEditing) {
           inputRef.current?.blur();
