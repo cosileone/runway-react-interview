@@ -23,7 +23,7 @@ const Cell: React.FC<Props> = ({ value, onChange }) => {
     setIsEditing(false);
   }, [setIsEditing]);
 
-  const isNumericValue = new RegExp('^[0-9]*$').test(value) && value !== '';
+  const isNumericValue = value !== '' && new RegExp('^[0-9]*$').test(value);
   const displayValue = isNumericValue
     ? Intl.NumberFormat('en-US', {
         // We only care about en-US / USD for now
