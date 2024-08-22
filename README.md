@@ -18,3 +18,8 @@ borrow selectively from this repo, please feel free to do so.
 ## Installation
 
 You can install dependencies using `yarn install` and run the app using `yarn dev`.
+
+
+## Extra Features Added
+
+Also added the ability to use "Enter" key to edit a cell. Using enter will save the value when editing, and it will also enter "editing" mode in a cell if it's highlighted.
